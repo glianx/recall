@@ -20,16 +20,17 @@ function recallfile(file::AbstractString, dict::AbstractDict)
     img = load(joinpath("./imgs_rgb", file))
     imshow(img)
     
+    println("Enter <Title> <Artist> <Year>: ")
     title = splitext(file)[1]
     response = readline()
 
-    # expected = join([
-    #     title, 
-    #     dict[title].artist, 
-    #     string(dict[title].year)]
-    # , " ")
-    
-    expected = string(dict[title].year)
+    expected = join([
+        title, 
+        dict[title].artist, 
+        string(dict[title].year)]
+    , " ")
+
+    # expected = string(dict[title].year)
 
     diffs, distance = compute_diffs(response, expected)
     score = 1 - distance / length(expected)
