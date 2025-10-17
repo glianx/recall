@@ -22,13 +22,13 @@ function recallfile(file::AbstractString, dict::AbstractDict)
     
     println("Enter <Title> <Artist> <Year>: ")
     title = splitext(file)[1]
-    response = readline()
+    response = lowercase(readline())
 
-    expected = join([
+    expected = lowercase(join([
         title, 
         dict[title].artist, 
         string(dict[title].year)]
-    , " ")
+    , " "))
 
     # expected = string(dict[title].year)
 
@@ -50,12 +50,29 @@ function main()
     files = readdir("./imgs_rgb")
     shuffle!(files)
 
+    tryagain = []
+
     for file in files
-        total_score += recallfile(file, dict)
+        score = recallfile(file, dict)
+        total_score += score
+        if score != 1
+            pushfirst!(tryagain, file)
+        end
     end
 
     avg_score = round(Int, total_score / length(files) * 100)
-    println("$(avg_score)%")
+    println("AVERAGE SCORE: $(avg_score)%")
+
+    while length(tryagain) > 0
+        file = pop!(tryagain)
+        score = recallfile(file, dict)
+        if score != 1
+            pushfirst!(tryagain, file)
+        end
+    end
 end
 
-main()
+while true
+    main()
+    println("new game!")
+end
