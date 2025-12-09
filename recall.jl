@@ -61,7 +61,7 @@ function main()
     end
 
     avg_score = round(Int, total_score / length(files) * 100)
-    println("AVERAGE SCORE: $(avg_score)%")
+    println("AVERAGE SCORE: $(avg_score)%\n\n")
 
     while length(tryagain) > 0
         file = pop!(tryagain)
